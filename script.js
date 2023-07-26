@@ -7,6 +7,10 @@ document.addEventListener('keydown', event => {
     }
 });
 
+function copyColor (text)
+{
+    return navigator.clipboard.writeText(text)
+}
 
 document.addEventListener ('click', event => {
     const type = event.target.dataset.type;
@@ -14,6 +18,14 @@ document.addEventListener ('click', event => {
         const elem = event.target.children[0]
         elem.classList.toggle('fa-lock')
         elem.classList.toggle('fa-unlock')
+    }
+    else if (type==='copy'){
+        copyColor (event.target.textContent)
+        notification.textContent = `Color ${event.target.textContent} copied to clipboard`;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
     }
 }
 )
