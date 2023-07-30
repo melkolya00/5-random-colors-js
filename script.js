@@ -1,9 +1,27 @@
 const columns = document.querySelectorAll(".col")
+let timeoutID;
+function startTimer(){
+    timeoutID = setTimeout(() => {
+        document.querySelector('#hint').style.opacity = 1;
+    }, 5000);
+}
+
+function resetTimer() {
+    // clear the previously set timeout, if any
+    if (timeoutID) {
+        clearTimeout(timeoutID);
+    }
+
+    // start new timer
+    startTimer();
+}
+
 document.addEventListener('keydown', event => {
+    resetTimer();
     if (event.code.toLowerCase() === 'space') {
         event.preventDefault();
         setRandomColors();
-        document.querySelector('#hint').style.display = 'none';
+        document.querySelector('#hint').style.opacity = 0;
     }
 });
 
@@ -13,6 +31,7 @@ function copyColor (text)
 }
 
 document.addEventListener ('click', event => {
+    resetTimer();
     const type = event.target.dataset.type;
     if (type === 'lock'){
         const elem = event.target.children[0]
@@ -24,7 +43,7 @@ document.addEventListener ('click', event => {
         notification.textContent = `Color ${event.target.textContent} copied to clipboard`;
         notification.style.display = 'block';
         setTimeout(() => {
-            notification.style.display = 'none';
+            notification.style.opacity = 0;
         }, 3000);
     }
 }
